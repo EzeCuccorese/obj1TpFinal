@@ -7,7 +7,7 @@ class Experimento {
 	}
 	method puedeRealizarse(unRick) = condiciones.all{c => unRick.algunMaterialCumple(c) }
 	method materialesParaConstruir(unRick) = condiciones.map{ c => unRick.algunMaterialQueCumpla(c) }
-	method construir(unRick){
+	method realizar(unRick){
 		const materiales = self.materialesParaConstruir(unRick)
 		unRick.remover(materiales) 
 		self.aplicarEfecto(unRick, materiales)

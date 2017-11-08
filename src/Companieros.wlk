@@ -13,14 +13,17 @@ object morty inherits Companiero {
 	method energiaSuficienteParaRecolectar(unMaterial) = energia >= unMaterial.energiaRequerida()
 	
 	method puedeRecolectar(unMaterial) = self.hayLugarEnMochila() and self.energiaSuficienteParaRecolectar(unMaterial)
-		
-	method recolectar(unMaterial) {
+	
+	method validarRecoleccion(unMaterial){
 		if (!self.puedeRecolectar(unMaterial)){
 			self.error("No se puede recolectar " + unMaterial)
 		}
+	}
+	
+	method recolectar(unMaterial) {
+		self.validarRecoleccion(unMaterial)
 		mochila.add(unMaterial)
-		energia -= unMaterial.energiaRequerida()
-		energia += unMaterial.energiaQueAporta()
+		unMaterial.efectoSobreRecolector(self)
 	}
 	
 	method darObjetosA(unCompanero) {

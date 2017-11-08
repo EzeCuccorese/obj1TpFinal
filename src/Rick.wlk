@@ -3,7 +3,7 @@ import Experimentos.*
 object rick {
 	var companero
 	const mochila = #{}
-	const experimentosConocidos = #{construirBateria, construirCircuito, shockElectrico} //TODO preguntar si esta bien
+	const experimentosConocidos = #{construirBateria, construirCircuito, shockElectrico} 
 
 	method companero() = companero
 	
@@ -35,11 +35,15 @@ object rick {
 		cosas que tiene actualmente en su mochila. */
 	method experimentosQuePuedeRealizar() = 
 		experimentosConocidos.filter{e => e.puedeRealizarse(self)}
-
-	method realizar(unExperimento) {	
+		
+	method validarRealizacionDeExperimento(unExperimento){
 		if (! self.experimentosQuePuedeRealizar().contains(unExperimento)) {
 			self.error("No puede realizarse el experimento " + unExperimento)
-		}
-		unExperimento.construir(self)
+		}		
+	}
+
+	method realizar(unExperimento) {	
+		self.validarRealizacionDeExperimento(unExperimento)
+		unExperimento.realizar(self)
 	}
 }

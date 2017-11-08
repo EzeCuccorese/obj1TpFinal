@@ -3,16 +3,19 @@ class Material {
 	method electricidad() = 0
 	method esRadiactivo() = false
 	method energia() = 0
-	method energiaRequerida() = self.gramosDeMetal()
-	method energiaQueAporta() = 0
 	method esConductor() = self.electricidad() > 0
 	method esGenerador() = self.energia() > 0
-	method gramosDeMetalMayorA(unosGramos) = self.gramosDeMetal() > unosGramos 
+	method gramosDeMetalMayorA(unosGramos) = self.gramosDeMetal() > unosGramos
+	
+	method energiaRequerida() = self.gramosDeMetal()
+	method efectoSobreRecolector(unRecolector){
+		unRecolector.modificarEnergia(- self.energiaRequerida())		
+	}
 }
 
 class Lata inherits Material {
 	const gramos
-
+	
 	constructor(_gramos) {
 		gramos = _gramos
 	}
@@ -45,13 +48,13 @@ class Fleeb inherits Material {
 	override method electricidad() = estomago.map{ m => m.electricidad() }.min()
 	override method esRadiactivo() = edad > 15
 	override method energia() = estomago.map{ m => m.energia() }.max()
-	override method energiaRequerida() = super() * 2
-	override method energiaQueAporta(){
-		if (self.esRadiactivo()){
-			return super()
-		}else{
-			return 10
-		}		
+	override method energiaRequerida() = super() * 2 
+	 
+	override method efectoSobreRecolector(unRecolector){
+		super(unRecolector)
+		if (!self.esRadiactivo()){
+			unRecolector.modificarEnergia(10)	
+		}
 	}
 }
 
