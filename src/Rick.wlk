@@ -3,7 +3,7 @@ import Experimentos.*
 object rick {
 	var companero
 	const mochila = #{}
-	const experimentosConocidos = #{construirBateria, construirCircuito, shockElectrico }
+	const experimentosConocidos = #{construirBateria, construirCircuito, shockElectrico} //TODO preguntar si esta bien
 
 	method companero() = companero
 	
@@ -15,13 +15,15 @@ object rick {
 		companero.modificarEnergia(unaCantidad)
 	}
 	
-	method mochila() = mochila
-	
 	method agregar(unMaterial) {
 		mochila.add(unMaterial)
 	}
 	method recibir(unosMateriales) {
 		mochila.addAll(unosMateriales)
+	}
+	
+	method remover(unosMateriales){
+		mochila.removeAll(unosMateriales)	
 	}
 	
 	method algunMaterialCumple(condicion) = mochila.any(condicion)
@@ -32,16 +34,12 @@ object rick {
 		saber de esos cuáles son los que puede hacer con las 
 		cosas que tiene actualmente en su mochila. */
 	method experimentosQuePuedeRealizar() = 
-		experimentosConocidos.filter{e => e.puedeRealizarse(mochila) }
+		experimentosConocidos.filter{e => e.puedeRealizarse(self)}
 
 	method realizar(unExperimento) {	
 		if (! self.experimentosQuePuedeRealizar().contains(unExperimento)) {
 			self.error("No puede realizarse el experimento " + unExperimento)
-		}	
+		}
 		unExperimento.construir(self)
-	}
-	
-	method removerMateriales(unosMateriales){
-		mochila.removeAll(unosMateriales)	
 	}
 }

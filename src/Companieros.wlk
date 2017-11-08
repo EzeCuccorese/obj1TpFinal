@@ -3,26 +3,21 @@ class Companiero {
 
 object morty inherits Companiero {
 	var energia
-	const mochila = #{ } // No puede tener mas de 3
+	const mochila = #{} // No puede tener mas de 3
 	
 	method modificarEnergia(unaCantidad) {
 		energia = ( energia + unaCantidad ).max(0)
 	} 
 	
-	method puedeRecolectar(unMaterial) = mochila.size() < 3 and energia >= unMaterial.energiaRequerida()
+	method hayLugarEnMochila() = mochila.size() < 3
+	method energiaSuficienteParaRecolectar(unMaterial) = energia >= unMaterial.energiaRequerida()
 	
-	method validarRecoleccion(unMaterial) {
-		if (mochila.size() >= 3) {
-			self.error("Morty tiene la mochila llena!")
-		}
+	method puedeRecolectar(unMaterial) = self.hayLugarEnMochila() and self.energiaSuficienteParaRecolectar(unMaterial)
 		
-		if (! self.puedeRecolectar(unMaterial)){
-			self.error("No hay energia suficiente para recolectar " + unMaterial)
-		}
-	}
-	
 	method recolectar(unMaterial) {
-		self.validarRecoleccion(unMaterial)
+		if (!self.puedeRecolectar(unMaterial)){
+			self.error("No se puede recolectar " + unMaterial)
+		}
 		mochila.add(unMaterial)
 		energia -= unMaterial.energiaRequerida()
 		energia += unMaterial.energiaQueAporta()
