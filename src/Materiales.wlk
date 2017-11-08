@@ -4,8 +4,10 @@ class Material {
 	method esRadiactivo() = false
 	method energia() = 0
 	method energiaRequerida() = self.gramosDeMetal()
-	method esConductivo() = self.electricidad() > 0
+	method energiaQueAporta() = 0
+	method esConductor() = self.electricidad() > 0
 	method esGenerador() = self.energia() > 0
+	method gramosDeMetalMayorA(unosGramos) = self.gramosDeMetal() > unosGramos 
 }
 
 class Lata inherits Material {
@@ -15,12 +17,12 @@ class Lata inherits Material {
 		gramos = _gramos
 	}
 	override method gramosDeMetal() = gramos
-	override method electricidad() = 0.1 * gramos
+	override method electricidad() = 0.1 * self.gramosDeMetal()
 }
 
 class Cable inherits Material {
-	const longitud
-	const seccion
+	const longitud // en metros
+	const seccion // en cm3
 
 	constructor(_longitud, _seccion) {
 		longitud = _longitud seccion = _seccion
@@ -44,6 +46,13 @@ class Fleeb inherits Material {
 	override method esRadiactivo() = edad > 15
 	override method energia() = estomago.map{ m => m.energia() }.max()
 	override method energiaRequerida() = super() * 2
+	override method energiaQueAporta(){
+		if (self.esRadiactivo()){
+			return super()
+		}else{
+			return 10
+		}		
+	}
 }
 
 class MateriaOscura inherits Material {
@@ -59,7 +68,6 @@ class MateriaOscura inherits Material {
 
 class MaterialDeExperimento inherits Material {
 	const componentes
-
 	constructor(_componentes) {
 		componentes = _componentes
 	}

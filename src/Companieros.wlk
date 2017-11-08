@@ -1,18 +1,15 @@
-
 class Companiero {
 }
-
-// MORTY
 
 object morty inherits Companiero {
 	var energia
 	const mochila = #{ } // No puede tener mas de 3
 	
-	method restarEnergia(unaCantidad) {
-		energia = ( energia - unaCantidad ).max(0)
-	}
+	method modificarEnergia(unaCantidad) {
+		energia = ( energia + unaCantidad ).max(0)
+	} 
 	
-	method puedeRecolectar(unMaterial) = energia >= unMaterial.energiaRequerida()
+	method puedeRecolectar(unMaterial) = mochila.size() < 3 and energia >= unMaterial.energiaRequerida()
 	
 	method validarRecoleccion(unMaterial) {
 		if (mochila.size() >= 3) {
@@ -27,12 +24,10 @@ object morty inherits Companiero {
 	method recolectar(unMaterial) {
 		self.validarRecoleccion(unMaterial)
 		mochila.add(unMaterial)
-
-		if (unMaterial.esRadiactivo()){ /// ???????????
-			energia -= unMaterial.energiaRequerida()
-		}
-
+		energia -= unMaterial.energiaRequerida()
+		energia += unMaterial.energiaQueAporta()
 	}
+	
 	method darObjetosA(unCompanero) {
 		unCompanero.recibir(mochila)
 		mochila.clear()
