@@ -44,10 +44,10 @@ class Fleeb inherits Material {
 	method comer(unMaterial) {
 		estomago.add(unMaterial)
 	}
-	override method gramosDeMetal() = estomago.sum{ m => m.gramosDeMetal() }
-	override method electricidad() = estomago.map{ m => m.electricidad() }.min()
+	override method gramosDeMetal() = if (estomago.isEmpty()) 0 else estomago.sum{ m => m.gramosDeMetal() }
+	override method electricidad() = if (estomago.isEmpty()) 0 else estomago.map{ m => m.electricidad() }.min()
 	override method esRadiactivo() = edad > 15
-	override method energia() = estomago.map{ m => m.energia() }.max()
+	override method energia() = if (estomago.isEmpty()) 0 else estomago.map{ m => m.energia() }.max()
 	override method energiaRequerida() = super() * 2 
 	 
 	override method efectoSobreRecolector(unRecolector){

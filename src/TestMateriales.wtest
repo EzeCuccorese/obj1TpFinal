@@ -1,6 +1,55 @@
+import Materiales.*
 
-test "testX" {
-
-	assert.that(true)
-
+describe "Materiales" {
+	var lata = new Lata(50)
+	var cable = new Cable(10, 2)
+	
+	//fixture{	}
+	test "Lata con 50 gramos de metal"{	
+		assert.equals(50, lata.gramosDeMetal())
+		assert.equals(5, lata.electricidad())	
+		assert.notThat( lata.esRadiactivo() )
+		assert.equals( 0 , lata.energia() )		
+	}
+	test "Cable con 10 longitud y 2 seccion"{	
+		assert.equals( (10/1000)*2 , cable.gramosDeMetal())
+		assert.equals( 6 , cable.electricidad())	
+		assert.notThat( cable.esRadiactivo() )
+		assert.equals( 0 , cable.energia() )		
+	}
+	test "Fleeb con 20 anios, radiactivo, flaco"{	
+		var fleeb = new Fleeb(20)
+		assert.equals( 0 , fleeb.gramosDeMetal())
+		assert.equals( 0 , fleeb.electricidad())
+		assert.that( fleeb.esRadiactivo() )
+		assert.equals( 0 , fleeb.energia() )		
+	}
+	test "Fleeb con 10 anios, gordito"{
+		var fleeb = new Fleeb(10)
+		fleeb.comer(lata)
+		fleeb.comer(cable)			
+		assert.equals( 50 + (10/1000)*2 , fleeb.gramosDeMetal())
+		assert.equals( 5 , fleeb.electricidad())
+		assert.notThat( fleeb.esRadiactivo() )
+		assert.equals( 0 , fleeb.energia() )		
+	}
+	test "Materia Oscura"{
+		var materia = new MateriaOscura(lata)	
+		assert.equals( 50 , materia.gramosDeMetal())
+		assert.equals( 2.5 , materia.electricidad())
+		assert.notThat( materia.esRadiactivo() )
+		assert.equals( 0 , materia.energia() )		
+	}
+	test "Bateria"{
+		var bat = new Bateria(#{lata})	
+		assert.equals( 50 , bat.gramosDeMetal())
+		assert.that( bat.esRadiactivo() )
+		assert.equals( 100 , bat.energia() )		
+	}
+	test "Circuito"{
+		var circuito = new Circuito(#{lata})	
+		assert.equals( 50 , circuito.gramosDeMetal())
+		assert.equals( 15 , circuito.electricidad())
+		assert.notThat( circuito.esRadiactivo() )
+	}
 }
