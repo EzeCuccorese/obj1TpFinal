@@ -22,14 +22,15 @@ object rick {
 	method recibir(unosMateriales) {
 		mochila.addAll(unosMateriales)
 	}
+	method materialesMochila() = mochila
 	
 	method remover(unosMateriales){
 		mochila.removeAll(unosMateriales)	
 	}
 	
 	method algunMaterialCumple(condicion) = mochila.any(condicion)
-	method algunMaterialQueCumpla(condicion) = mochila.anyOne(condicion)
-	method todosMaterialesQueCumplen(condicion) = mochila.filter(condicion)
+	method algunMaterialQueCumpla(condicion) = mochila.find(condicion) 
+	method todosMaterialesQueCumplen(condicion) = mochila.all(condicion) 
 
 	/* Rick sabe un conjunto de experimentos, pero queremos
 		saber de esos cuáles son los que puede hacer con las 
@@ -38,9 +39,8 @@ object rick {
 		experimentosConocidos.filter{e => e.puedeRealizarse(self)}
 		
 	method validarRealizacionDeExperimento(unExperimento){
-		if (! self.experimentosQuePuedeRealizar().contains(unExperimento)) {
-			self.error("No puede realizarse el experimento " + unExperimento)
-		}		
+		if (! unExperimento.puedeRealizarse(self)){
+		    self.error("No puede realizarse el experimento " + unExperimento)		}		
 	}
 
 	method realizar(unExperimento) {	

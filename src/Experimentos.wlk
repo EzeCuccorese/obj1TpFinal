@@ -36,17 +36,13 @@ class Experimento {
 /* Implentacion de la construccion de una bateria. Tiene como condiciones que los materiales deben
  * tener una cierta cantidad de gramos de metal y/o el material debe ser radiactivo.
  */
-object construirBateria inherits Experimento(#{ 
+object construirBateria inherits Experimento(#{
 	/*Validacion sobre el material para ver si cumple con los gramos de metal necesarios */					
-	{ m => m.gramosDeMetalMayorA(gramosDeMetalNecesarios) },
-	
+	{ m => m.gramosDeMetalMayorA(200) },  
 	/*Verificacion sobre el material para ver si es radiactivo. */ 
-	{ m => m.esRadiactivo() }	
-}) {		
+	{ m => m.esRadiactivo() }
+	}) {
 					
-	// Cantidad de gramos de metal necesarios que debe tener el material.
-	const gramosDeMetalNecesarios = 200	
-
 	/* Sobreescritura del metodo aplicar efecto al construir una bateria. En este caso al 
 	 * construirse el compañero de rick pierde 5 puntos de energía.
 	 */
@@ -61,11 +57,7 @@ object construirBateria inherits Experimento(#{
  */
 object construirCircuito inherits Experimento(#{
 	/*Verifica que el material tenga la conduccion necesaria para realizar el experimento. */
-	{ m => m.electricidad() >= conduccionNecesaria }
-}) {
-	
-	//Cantidad de conduccion necesaria que debe tener el material.
-	const conduccionNecesaria = 5
+	{ m => m.electricidad() >= 5 }}) {
 	
 	/*Se sobreescribe este metodo, ya que para construir un circuito se ocupan 
 	 * todos los materiales que cumplan con la condicion. */
@@ -99,11 +91,11 @@ object shockElectrico inherits Experimento(#{
 	
 	/*Devuelve la electricidad del material conductivo. */				
 	method electricidadDeConductor(unosMateriales) = 
-				unosMateriales.anyOne(self.esConductor()).electricidad()
+				unosMateriales.anyOne(self.esConductor()).apply().electricidad()
 	
 	/* Devuelve la energia del material energetico. */
 	method energiaDeGenerador(unosMateriales) =
-				unosMateriales.anyOne(self.esGenerador()).energia()
+				unosMateriales.anyOne(self.esGenerador()).apply().energia()
 
 	/* Sobreescritura del metodo aplicar efecto al construir un shock electrico. En este caso 
 	 * el companiero gana la energia que da el conductor por el generador.

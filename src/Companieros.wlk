@@ -30,6 +30,8 @@ object morty inherits Companiero {
 		}
 	}
 	
+	method energia() = energia
+	
 	/*Recolecta un material, validando si esto es posible. */
 	method recolectar(unMaterial) {
 		self.validarRecoleccion(unMaterial)

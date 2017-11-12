@@ -1,36 +1,43 @@
+import Experimentos.*
+import Rick.*
+import Materiales.*
 import Companieros.*
 
-object materialTrucho{
-	method energiaRequerida() = 0		
-	method efectoSobreRecolector(algo){}
-}
-object materialTrucho2{
-	method energiaRequerida() = 0		
-	method efectoSobreRecolector(algo){}
-}	
-object materialTrucho3{
-	method energiaRequerida() = 0		
-	method efectoSobreRecolector(algo){}
-}
 object materialCaro{
 	method energiaRequerida() = 9999999999		
 }
-
-describe "Morty" {
+describe  "morty"{
 	
-	//fixture{	}
-	test "puede recolectar Material"{
-		assert.that(morty.puedeRecolectar(materialTrucho))
-		assert.notThat(morty.puedeRecolectar(materialCaro))
-	}
-	test "recolectar Material Caro lanza error"{
-		assert.throwsException({morty.recolectar(materialCaro)})
-	}
-	test "recolectar 3 materiales, se llena la mochila"{
-		assert.that(morty.hayLugarEnMochila())
-		morty.recolectar(materialTrucho)
-		morty.recolectar(materialTrucho2)
-		morty.recolectar(materialTrucho3)
-		assert.notThat(morty.hayLugarEnMochila())		
-	}
+		const lata = new Lata(10)
+		const fleebito = new Fleeb(20)
+		const cable = new Cable(10,3)
+		
+		test "lugar mochila"{
+			morty.modificarEnergia(500)
+			morty.recolectar(lata)
+			morty.recolectar(fleebito)
+			morty.recolectar(cable)
+			assert.equals(false,morty.hayLugarEnMochila())
+			
+	
+		}
+		
+		test "recolectar Material Caro lanza error"{
+			assert.throwsException({morty.recolectar(materialCaro)})
+		}
+		
+		test "no puedo recolectar "{
+			assert.equals(false, morty.energiaSuficienteParaRecolectar(lata))
+			assert.equals(false,morty.puedeRecolectar(lata))
+		}
+		
+		test "dar objeto "{
+			morty.modificarEnergia(50)
+			morty.recolectar(lata)
+			morty.darObjetosA(rick)
+			assert.equals(#{lata},rick.materialesMochila())
+		}
+		
+		
+		
 }

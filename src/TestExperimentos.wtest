@@ -1,6 +1,41 @@
+import Experimentos.*
+import Rick.*
+import Materiales.*
+import Companieros.*
 
-test "testX" {
+describe  "construir"{
+		const lata = new Lata(300)
+		const fleebito = new Fleeb(20)
+		const cable = new Cable(100,3)
+		
+		fixture {
 
-	assert.that(true)
+		rick.agregar(lata)
+		rick.agregar(fleebito)
+		rick.agregar(cable)
+		rick.companero(morty)
+		morty.modificarEnergia(500)
+		
+		}
+	
+	test "contruir una bateria"{
+
+	rick.realizar(construirBateria)
+	assert.equals(495,morty.energia())
+	}
+	
+	test "costruir un Circuito "{
+		rick.realizar(construirCircuito)
+		assert.equals(#{lata,cable
+		},rick.materialesMochila())
+	}
+	
+	test "construir shockElectrico"{
+		rick.realizar(shockElectrico)
+		assert.equals(495,morty.energia())
+		
+	}
+	
 
 }
+
