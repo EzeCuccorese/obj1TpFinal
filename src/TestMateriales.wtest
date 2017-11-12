@@ -27,7 +27,7 @@ describe "Materiales" {
 	test "Fleeb con 10 anios, gordito"{
 		var fleeb = new Fleeb(10)
 		fleeb.comer(lata)
-		fleeb.comer(cable)			
+		fleeb.comer(cable)
 		assert.equals( 50 + (10/1000)*2 , fleeb.gramosDeMetal())
 		assert.equals( 5 , fleeb.electricidad())
 		assert.notThat( fleeb.esRadiactivo() )

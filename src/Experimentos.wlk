@@ -36,17 +36,16 @@ class Experimento {
 /* Implentacion de la construccion de una bateria. Tiene como condiciones que los materiales deben
  * tener una cierta cantidad de gramos de metal y/o el material debe ser radiactivo.
  */
-object construirBateria inherits 
-					Experimento(#{self.gramosDeMetalNecesario(), self.esRadiactivo()}) {
-						
-	// Cantidad de gramos de metal necesarios que debe tener el material.
-	const gramosDeMetalNecesarios = 200	
-	
-	/*Validacion sobre el material para ver si cumple con los gramos de metal necesarios */
-	method gramosDeMetalNecesario() = { m => m.gramosDeMetalMayorA(gramosDeMetalNecesarios) }
+object construirBateria inherits Experimento(#{ 
+	/*Validacion sobre el material para ver si cumple con los gramos de metal necesarios */					
+	{ m => m.gramosDeMetalMayorA(gramosDeMetalNecesarios) },
 	
 	/*Verificacion sobre el material para ver si es radiactivo. */ 
-	method esRadiactivo() = { m => m.esRadiactivo() }
+	{ m => m.esRadiactivo() }	
+}) {		
+					
+	// Cantidad de gramos de metal necesarios que debe tener el material.
+	const gramosDeMetalNecesarios = 200	
 
 	/* Sobreescritura del metodo aplicar efecto al construir una bateria. En este caso al 
 	 * construirse el compañero de rick pierde 5 puntos de energía.
@@ -60,7 +59,10 @@ object construirBateria inherits
 /* Implentacion de la construccion de un circuito. Tiene como condiciones que los materiales 
  * tengan la conduccion necesaria para realizar el experimento.
  */
-object construirCircuito inherits Experimento(#{self.conduccionNecesaria()}) {
+object construirCircuito inherits Experimento(#{
+	/*Verifica que el material tenga la conduccion necesaria para realizar el experimento. */
+	{ m => m.electricidad() >= conduccionNecesaria }
+}) {
 	
 	//Cantidad de conduccion necesaria que debe tener el material.
 	const conduccionNecesaria = 5
@@ -69,9 +71,6 @@ object construirCircuito inherits Experimento(#{self.conduccionNecesaria()}) {
 	 * todos los materiales que cumplan con la condicion. */
 	override method materialesParaConstruir(unRick) = 
 				condiciones.map{ c => unRick.todosMaterialesQueCumplen(c) }
-				
-	/*Verifica que el material tenga la conduccion necesaria para realizar el experimento. */
-	method conduccionNecesaria() = { m => m.electricidad() >= conduccionNecesaria }
 
 	/* Sobreescritura del metodo aplicar efecto al construir un circuito. En este caso al 
 	 * construirse no se aplica ningun efecto sobre el compaiero de rick.
@@ -85,7 +84,12 @@ object construirCircuito inherits Experimento(#{self.conduccionNecesaria()}) {
  * companiero. Para eso se necesita un material capaz de generar energia (generador) 
  * y otro capaz de conducirla (conductor).
  */
-object shockElectrico inherits Experimento(#{self.esConductor(), self.esGenerador()}) {
+object shockElectrico inherits Experimento(#{
+	/*Verifica que el material sea conductor de energia.*/
+	{ m => m.esConductor()}, 
+	/*Verifica que el material sea generador de energia. */ 
+	{ m => m.esGenerador()}
+}) {
 	
 	/*Verifica que el material sea conductor de energia.*/
 	method esConductor() = { m => m.esConductor()}

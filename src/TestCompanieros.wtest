@@ -1,6 +1,36 @@
+import Companieros.*
 
-test "testX" {
+object materialTrucho{
+	method energiaRequerida() = 0		
+	method efectoSobreRecolector(algo){}
+}
+object materialTrucho2{
+	method energiaRequerida() = 0		
+	method efectoSobreRecolector(algo){}
+}	
+object materialTrucho3{
+	method energiaRequerida() = 0		
+	method efectoSobreRecolector(algo){}
+}
+object materialCaro{
+	method energiaRequerida() = 9999999999		
+}
 
-	assert.that(true)
-
+describe "Morty" {
+	
+	//fixture{	}
+	test "puede recolectar Material"{
+		assert.that(morty.puedeRecolectar(materialTrucho))
+		assert.notThat(morty.puedeRecolectar(materialCaro))
+	}
+	test "recolectar Material Caro lanza error"{
+		assert.throwsException({morty.recolectar(materialCaro)})
+	}
+	test "recolectar 3 materiales, se llena la mochila"{
+		assert.that(morty.hayLugarEnMochila())
+		morty.recolectar(materialTrucho)
+		morty.recolectar(materialTrucho2)
+		morty.recolectar(materialTrucho3)
+		assert.notThat(morty.hayLugarEnMochila())		
+	}
 }

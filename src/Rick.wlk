@@ -1,7 +1,8 @@
 import Experimentos.*
+import Companieros.*
 
 object rick {
-	var companero
+	var companero = morty
 	const mochila = #{}
 	const experimentosConocidos = #{construirBateria, construirCircuito, shockElectrico} 
 

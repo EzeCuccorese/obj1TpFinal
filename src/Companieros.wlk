@@ -7,7 +7,7 @@ class Companiero {
 
 /*Es la implementacion en particular de morty */
 object morty inherits Companiero {
-	var energia
+	var energia = 0
 	const mochila = #{} 
 	
 	method modificarEnergia(unaCantidad) {
