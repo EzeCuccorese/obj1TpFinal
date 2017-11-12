@@ -1,6 +1,30 @@
+import Rick.*
+import Materiales.*
+import Experimentos.*
 
-test "testX" {
-
-	assert.that(true)
-
+describe "rick"{
+	const lata = new Lata(1000)
+	const cable = new Cable(100,3)
+	
+	test "agregar objeto a mochila"{
+			rick.agregar(lata)
+			assert.equals(#{lata},rick.materialesMochila())
+	}
+	
+	test "recibir materiales"{
+		rick.recibir(#{lata, cable})
+		assert.equals(#{lata, cable}, rick.materialesMochila())
+	}
+	
+	test "experimentos que puede realizar" {
+		rick.recibir(#{lata, cable})
+		assert.that(rick.experimentosQuePuedeRealizar().contains(construirCircuito))
+	}
+	
+	test "realizar experimento" {
+		rick.recibir(#{new Lata(1000), new Cable(100,3)})
+		assert.that(rick.materialesMochila().size()==2)
+		rick.realizar(construirCircuito)
+		assert.that(rick.materialesMochila().size()==3)
+	}
 }

@@ -1,7 +1,8 @@
 import Experimentos.*
 import Companieros.*
+import Materiales.*
 
-object rick {
+object rick inherits wollok.lang.Object{
 	var companero = morty
 	const mochila = #{}
 	const experimentosConocidos = #{construirBateria, construirCircuito, shockElectrico} 
@@ -29,8 +30,8 @@ object rick {
 	}
 	
 	method algunMaterialCumple(condicion) = mochila.any(condicion)
-	method algunMaterialQueCumpla(condicion) = mochila.find(condicion) 
-	method todosMaterialesQueCumplen(condicion) = mochila.all(condicion) 
+	method algunMaterialQueCumpla(condicion) = mochila.anyOne(condicion) 
+	method todosMaterialesQueCumplen(condicion) = mochila.filter(condicion) 
 
 	/* Rick sabe un conjunto de experimentos, pero queremos
 		saber de esos cuáles son los que puede hacer con las 

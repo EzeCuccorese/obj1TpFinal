@@ -37,7 +37,4 @@ describe  "morty"{
 			morty.darObjetosA(rick)
 			assert.equals(#{lata},rick.materialesMochila())
 		}
-		
-		
-		
 }

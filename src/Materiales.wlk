@@ -1,5 +1,5 @@
 class Material {
-	method gramosDeMetal() 
+	method gramosDeMetal() = 0
 	method electricidad() = 0
 	method esRadiactivo() = false
 	method energia() = 0
