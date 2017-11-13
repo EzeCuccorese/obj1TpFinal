@@ -42,7 +42,7 @@ object construirBateria inherits Experimento(#{
 	/*Verificacion sobre el material para ver si es radiactivo. */ 
 	{ m => m.esRadiactivo() }
 	}) {
-					
+		
 	/* Sobreescritura del metodo aplicar efecto al construir una bateria. En este caso al 
 	 * construirse el compañero de rick pierde 5 puntos de energía.
 	 */
@@ -60,9 +60,9 @@ object construirCircuito inherits Experimento(#{
 	{ m => m.electricidad() >= 5 }}) {
 	
 	/*Se sobreescribe este metodo, ya que para construir un circuito se ocupan 
-	 * todos los materiales que cumplan con la condicion. */
+	 * todos los materiales que cumplan para cada una de las condiciones. */
 	override method materialesParaConstruir(unRick) = 
-				condiciones.map{ c => unRick.todosMaterialesQueCumplen(c) }
+				condiciones.fold(#{}, { acc, c => acc + unRick.todosMaterialesQueCumplen(c) } )
 
 	/* Sobreescritura del metodo aplicar efecto al construir un circuito. En este caso al 
 	 * construirse no se aplica ningun efecto sobre el compaiero de rick.
@@ -89,16 +89,21 @@ object shockElectrico inherits Experimento(#{
 	/*Verifica que el material sea generador de energia. */ 
 	method esGenerador() = { m => m.esGenerador()}
 	
+	/*Denota algun objeto de unosMateriales que cumpla la condicion "condicion" */
+	method algunoQueCumpla(unosMateriales, condicion) =
+			unosMateriales.filter(condicion).anyOne()  
+	
 	/*Devuelve la electricidad del material conductivo. */				
-	method electricidadDeConductor(unosMateriales) = 
-				unosMateriales.anyOne(self.esConductor()).apply().electricidad()
+	method electricidadDeConductor(unosMateriales) =
+		self.algunoQueCumpla(unosMateriales, self.esConductor()).electricidad()
 	
 	/* Devuelve la energia del material energetico. */
 	method energiaDeGenerador(unosMateriales) =
-				unosMateriales.anyOne(self.esGenerador()).apply().energia()
+		self.algunoQueCumpla(unosMateriales, self.esGenerador()).energia()
 
-	/* Sobreescritura del metodo aplicar efecto al construir un shock electrico. En este caso 
-	 * el companiero gana la energia que da el conductor por el generador.
+	/* Sobreescritura del metodo aplicar efecto al construir un shock electrico. 
+	 * En este caso el companiero gana la energia que da el conductor 
+	 * multiplicado la electricidad del generador.
 	 */	
 	override method aplicarEfecto(unRick, unosMateriales) {
 		unRick.modificarEnergiaCompanero(		

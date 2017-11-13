@@ -3,38 +3,36 @@ import Rick.*
 import Materiales.*
 import Companieros.*
 
-describe  "construir"{
-		const lata = new Lata(300)
-		const fleebito = new Fleeb(20)
-		const cable = new Cable(100,3)
-		
-		fixture {
-
-		rick.agregar(lata)
-		rick.agregar(fleebito)
-		rick.agregar(cable)
-		rick.companero(morty)
-		morty.modificarEnergia(500)
-		
-		}
+describe  "construir Experimentos"{
+	const lata = new Lata(300)
+	const fleebito = new Fleeb(20)
+	const cable = new Cable(100,3)
 	
-	test "contruir una bateria"{
-
-	rick.realizar(construirBateria)
-	assert.equals(495,morty.energia())
+	fixture {
+		rick.recibir(#{lata, fleebito, cable})
+		morty.modificarEnergia(500)
 	}
 	
-	test "costruir un Circuito "{
+	test "construir una bateria"{
+		rick.realizar(construirBateria)
+		assert.equals(495,morty.energia())
+	}
+	
+	test "construir un Circuito "{
+		assert.that(rick.materialesMochila().contains(lata))
+		assert.that(rick.materialesMochila().contains(cable))
 		rick.realizar(construirCircuito)
-		assert.equals(#{lata,cable
-		},rick.materialesMochila())
+		assert.notThat(rick.materialesMochila().contains(lata))
+		assert.notThat(rick.materialesMochila().contains(cable))
+	}
+	
+	test "construir shockElectrico lanza error"{
+		assert.throwsException({rick.realizar(shockElectrico)})
 	}
 	
 	test "construir shockElectrico"{
-		rick.realizar(shockElectrico)
-		assert.equals(495,morty.energia())
-		
+		fleebito.comer(new Bateria(#{lata}))
+	  	rick.realizar(shockElectrico)
+		assert.equals(5900,morty.energia())
 	}
-	
-
 }

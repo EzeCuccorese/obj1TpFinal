@@ -1,6 +1,7 @@
 import Experimentos.*
 import Companieros.*
 import Materiales.*
+
 /*Representa al modelado de el cientifico rick. */
 object rick {
 	//El compañero de rick.
@@ -44,7 +45,8 @@ object rick {
 	method algunMaterialCumple(condicion) = mochila.any(condicion)
 	
 	/*Devuelve algun material que cumpla con la condicion. */
-	method algunMaterialQueCumpla(condicion) = mochila.anyOne(condicion) 
+	method algunMaterialQueCumpla(condicion) = 
+		self.todosMaterialesQueCumplen(condicion).anyOne() 
 	
 	/*Devuelve todos los materiales que cumplen con la condicion */
 	method todosMaterialesQueCumplen(condicion) = mochila.filter(condicion) 

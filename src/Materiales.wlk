@@ -153,7 +153,10 @@ class MaterialDeExperimento inherits Material {
 
 /*Material resultante del experimento que crea una bateria. */
 class Bateria inherits MaterialDeExperimento {
+	/*Bateria siempre es radiactiva */
 	override method esRadiactivo() = true
+	
+	/*Energia es el doble de sus gramos de metal */
 	override method energia() = 2 * self.gramosDeMetal()
 }
 

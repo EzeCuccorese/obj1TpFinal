@@ -21,10 +21,10 @@ describe "rick"{
 		assert.that(rick.experimentosQuePuedeRealizar().contains(construirCircuito))
 	}
 	
-	test "realizar experimento" {
-		rick.recibir(#{new Lata(1000), new Cable(100,3)})
-		assert.that(rick.materialesMochila().size()==2)
+	test "realizar experimento construirCircuito" {
+		rick.recibir(#{lata, cable})
+		assert.equals(2, rick.materialesMochila().size())
 		rick.realizar(construirCircuito)
-		assert.that(rick.materialesMochila().size()==3)
+		assert.equals(1, rick.materialesMochila().size())
 	}
 }
