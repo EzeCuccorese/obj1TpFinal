@@ -1,6 +1,7 @@
 import Materiales.*
 
-/*Representa un experimento con todos los mensajes que entienden */
+/*Representa un experimento con todos los mensajes que entienden 
+ * Clase Abstracta */
 class Experimento {
 	
 	//Condiciones para realizar el experimento (conjunto de clousures).
@@ -29,7 +30,8 @@ class Experimento {
 		self.aplicarEfecto(unRick, materiales)
 	}
 	
-	/*Aplica un efecto sobre el companiero de rick luego de realizar el experimento. */
+	/*Aplica un efecto sobre el companiero de rick luego de realizar el experimento. 
+	 * Metodo Abstracto  */
 	method aplicarEfecto(unRick, unosMateriales)
 }
 

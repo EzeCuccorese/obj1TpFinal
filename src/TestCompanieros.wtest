@@ -17,7 +17,7 @@ describe  "morty"{
 			morty.recolectar(lata)
 			morty.recolectar(fleebito)
 			morty.recolectar(cable)
-			assert.equals(false,morty.hayLugarEnMochila())	
+			assert.notThat(morty.hayLugarEnMochila())	
 		}
 		
 		
@@ -26,8 +26,8 @@ describe  "morty"{
 		}
 		
 		test "no puedo recolectar "{
-			assert.equals(false, morty.energiaSuficienteParaRecolectar(lata))
-			assert.equals(false,morty.puedeRecolectar(lata))
+			assert.notThat(morty.energiaSuficienteParaRecolectar(lata))
+			assert.notThat(morty.puedeRecolectar(lata))
 		}
 		
 		test "dar objeto "{
@@ -35,6 +35,6 @@ describe  "morty"{
 			morty.recolectar(lata)
 			morty.darObjetosA(rick)
 			assert.equals(#{lata},rick.materialesMochila())
-			assert.equals(#{},morty.materialesMochila())
+			assert.that(morty.materialesMochila().isEmpty())
 		}
 }

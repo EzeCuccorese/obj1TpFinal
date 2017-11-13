@@ -19,7 +19,6 @@ describe  "construir Experimentos"{
 		assert.notThat(rick.materialesMochila().contains(lata))
 		assert.notThat(rick.materialesMochila().contains(fleebito))
 		assert.equals(2,rick.materialesMochila().size())
-				
 	}
 	
 	test "construir un Circuito "{
@@ -36,6 +35,7 @@ describe  "construir Experimentos"{
 	
 	test "construir shockElectrico"{
 		fleebito.comer(new Bateria(#{lata}))
+		rick.remover(#{lata})
 	  	rick.realizar(shockElectrico)
 		assert.equals(5900,morty.energia())
 	}

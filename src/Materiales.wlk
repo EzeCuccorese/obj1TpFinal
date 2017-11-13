@@ -1,7 +1,9 @@
-/*Representa un material en general. */
+/*Representa un material en general. 
+* Clase Abstracta  */
 class Material {
-	/*Gramos de metal del material. */
-	method gramosDeMetal() = 0
+	/*Gramos de metal del material. 
+	 * Metodo Abstracto */
+	method gramosDeMetal()
 	
 	/*Electricidad que puede conducir el material. */
 	method electricidad() = 0
