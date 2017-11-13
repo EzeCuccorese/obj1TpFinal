@@ -31,6 +31,9 @@ class Material {
 	method efectoSobreRecolector(unRecolector){
 		unRecolector.modificarEnergia(- self.energiaRequerida())		
 	}
+	
+	/*Indica si el material esta vivo. */
+	method estaVivo() = false
 }
 
 /*Modela una lata. */
@@ -69,60 +72,6 @@ class Cable inherits Material {
 	
 	/*Calcula la energia que conduce en base a la seccion. */
 	override method electricidad() = 3 * seccion
-}
-
-/*Model aun Fleeb. */
-class Fleeb inherits Material {
-
-	//Edad en años.
-	const edad
-	
-	//Materiales que tiene en el estomago.
-	const estomago = #{ }
-
-	/*Constructor, recibe por parametros la edad que tiene. */
-	constructor(_edad) {
-		edad = _edad
-	}
-	
-	/*Come un material y se guarda en el estomago. */
-	method comer(unMaterial) {
-		estomago.add(unMaterial)
-	}
-	
-	/*Gramos de metal que tiene, se calcula en base a lo que tiene dentro del estomago,
-	 * es la sumatoria de todos los materiales. */
-	override method gramosDeMetal() = 
-				if (estomago.isEmpty()) 0 
-				else estomago.sum{ m => m.gramosDeMetal() }
-				
-	/*Electricidad que conduce, se calcula en base al material que menos conduce de los 
-	 * que tiene en el estomago. */
-	override method electricidad() = 
-				if (estomago.isEmpty()) 0 
-				else estomago.map{ m => m.electricidad() }.min()
-	
-	/*Si el Fleeb tiene más de 15 años se convierte en un material radiactivo. */
-	override method esRadiactivo() = edad > 15
-	
-	/*Energia que genera, se calcula en base al material que mas energia genera de los 
-	 * que tiene en el estomago. */	
-	override method energia() = 
-				if (estomago.isEmpty()) 0 
-				else estomago.map{ m => m.energia() }.max()
-	
-	/*Energia requerida para recolectarlo, implica el doble de gasto de lo que requiere
-	 * un material comun. */		
-	override method energiaRequerida() = super() * 2 
-	
-	/*Efecto que produce sobre su recolector, si el Fleeb no es radiactivo otorga 10
-	 * puntos extras de energia, a parte le descuenta energia como cualquier otro material. */
-	override method efectoSobreRecolector(unRecolector){
-		super(unRecolector)
-		if (!self.esRadiactivo()){
-			unRecolector.modificarEnergia(10)	
-		}
-	}
 }
 
 /* Modela materia oscura contiene un material base. La conductividad es la mitad de la base,
@@ -177,4 +126,78 @@ class Circuito inherits MaterialDeExperimento {
 	
 	/*Es radiactivo si y solo si alguno de sus componentes son radiactivos. */
 	override method esRadiactivo() = componentes.any{ c => c.esRadiactivo() }
+}
+
+class MaterialVivo inherits Material {
+	
+	/*Indica si el material esta vivo. */
+	override method estaVivo() = true
+	
+}
+
+/*Model aun Fleeb. */
+class Fleeb inherits MaterialVivo {
+
+	//Edad en años.
+	const edad
+	
+	//Materiales que tiene en el estomago.
+	const estomago = #{ }
+
+	/*Constructor, recibe por parametros la edad que tiene. */
+	constructor(_edad) {
+		edad = _edad
+	}
+	
+	/*Come un material y se guarda en el estomago. */
+	method comer(unMaterial) {
+		estomago.add(unMaterial)
+	}
+	
+	/*Gramos de metal que tiene, se calcula en base a lo que tiene dentro del estomago,
+	 * es la sumatoria de todos los materiales. */
+	override method gramosDeMetal() = 
+				if (estomago.isEmpty()) 0 
+				else estomago.sum{ m => m.gramosDeMetal() }
+				
+	/*Electricidad que conduce, se calcula en base al material que menos conduce de los 
+	 * que tiene en el estomago. */
+	override method electricidad() = 
+				if (estomago.isEmpty()) 0 
+				else estomago.map{ m => m.electricidad() }.min()
+	
+	/*Si el Fleeb tiene más de 15 años se convierte en un material radiactivo. */
+	override method esRadiactivo() = edad > 15
+	
+	/*Energia que genera, se calcula en base al material que mas energia genera de los 
+	 * que tiene en el estomago. */	
+	override method energia() = 
+				if (estomago.isEmpty()) 0 
+				else estomago.map{ m => m.energia() }.max()
+	
+	/*Energia requerida para recolectarlo, implica el doble de gasto de lo que requiere
+	 * un material comun. */		
+	override method energiaRequerida() = super() * 2 
+	
+	/*Efecto que produce sobre su recolector, si el Fleeb no es radiactivo otorga 10
+	 * puntos extras de energia, a parte le descuenta energia como cualquier otro material. */
+	override method efectoSobreRecolector(unRecolector){
+		super(unRecolector)
+		if (!self.esRadiactivo()){
+			unRecolector.modificarEnergia(10)	
+		}
+	}
+}
+
+class Parasito inherits MaterialVivo{
+	
+	/*Gramos de metal del material. */
+	override method gramosDeMetal() = 10
+	
+	/*Electricidad que puede conducir el material. */
+	override method electricidad() = 5
+	
+	/*Indica si el material es conductor de energia.*/
+	override method esConductor() = false
+	
 }
