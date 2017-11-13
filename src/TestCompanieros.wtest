@@ -17,10 +17,9 @@ describe  "morty"{
 			morty.recolectar(lata)
 			morty.recolectar(fleebito)
 			morty.recolectar(cable)
-			assert.equals(false,morty.hayLugarEnMochila())
-			
-	
+			assert.equals(false,morty.hayLugarEnMochila())	
 		}
+		
 		
 		test "recolectar Material Caro lanza error"{
 			assert.throwsException({morty.recolectar(materialCaro)})
@@ -36,5 +35,6 @@ describe  "morty"{
 			morty.recolectar(lata)
 			morty.darObjetosA(rick)
 			assert.equals(#{lata},rick.materialesMochila())
+			assert.equals(#{},morty.materialesMochila())
 		}
 }

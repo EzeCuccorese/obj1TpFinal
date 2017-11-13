@@ -16,6 +16,10 @@ describe  "construir Experimentos"{
 	test "construir una bateria"{
 		rick.realizar(construirBateria)
 		assert.equals(495,morty.energia())
+		assert.notThat(rick.materialesMochila().contains(lata))
+		assert.notThat(rick.materialesMochila().contains(fleebito))
+		assert.equals(2,rick.materialesMochila().size())
+				
 	}
 	
 	test "construir un Circuito "{
