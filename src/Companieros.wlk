@@ -7,9 +7,13 @@ class Companiero {
 
 /*Es la implementacion en particular de morty */
 object morty inherits Companiero {
+	/*Energia que tiene morty */
 	var energia = 0
+	
+	/*La mochila donde lleva sus materiales morty */
 	const mochila = #{} 
 	
+	/*Setea energia en Morty. */
 	method modificarEnergia(unaCantidad) {
 		energia = ( energia + unaCantidad ).max(0)
 	} 
@@ -29,9 +33,11 @@ object morty inherits Companiero {
 			self.error("No se puede recolectar " + unMaterial)
 		}
 	}
-	
+
+	/*Devuelve el conjunto de materiales que tiene en la mochila morty. */
 	method materialesMochila() = mochila
 	
+	/*Devuelve la energia que tiene morty. */
 	method energia() = energia
 	
 	/*Recolecta un material, validando si esto es posible. */

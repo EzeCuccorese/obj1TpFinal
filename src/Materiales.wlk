@@ -136,15 +136,22 @@ class MateriaOscura inherits Material {
 	constructor(_materialBase) {
 		materialBase = _materialBase
 	}
-	
+
+	/* Sobreescritura del metodo gramosDeMetal.Retorna los gramos de metal del material basecon el que se construye.*/		
 	override method gramosDeMetal() = materialBase.gramosDeMetal()
+
+	/* Sobreescritura del metodo electricidad.Retorna la electricidad del material base con el que se construye.*/		
 	override method electricidad() = materialBase.electricidad() / 2
+
+	/* Sobreescritura del metodo rnergia.Retorna la energia del material base con el que se construye.*/		
 	override method energia() = materialBase.energia() * 2
 }
 
 /*Es el material resultante luego de realizar un experimento. */
 class MaterialDeExperimento inherits Material {
+	
 	const componentes
+	
 	constructor(_componentes) {
 		componentes = _componentes
 	}
