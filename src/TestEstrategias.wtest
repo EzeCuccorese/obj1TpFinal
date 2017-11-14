@@ -1,0 +1,56 @@
+import Estrategias.*
+
+object minMetal {
+	method gramosDeMetal() = 0
+	method energia() = 0
+}
+
+object neutro {
+	method gramosDeMetal() = 100
+	method energia() = 10
+}
+
+object maxEnergia {
+	method gramosDeMetal() = 100
+	method energia() = 200
+}
+
+object matVivo {
+	method estaVivo() = true
+	method esRadiactivo() = true
+}
+object matNoRad {
+	method estaVivo() = false
+	method esRadiactivo() = false
+}
+object otro {
+	method estaVivo() = false
+	method esRadiactivo() = true
+}
+object otro2 {
+	method estaVivo() = false
+	method esRadiactivo() = true
+}
+
+describe  "Estrategias"{
+	const set = #{minMetal, neutro, maxEnergia}
+	
+	test "azar, cualquiera material"{
+	 	assert.that(set.contains(azar.algunMaterialQueCumpla(set)))
+	}
+	test "menorMetal, material con el minimo de gramosDeMetal"{
+		assert.equals(minMetal, menorMetal.algunMaterialQueCumpla(set))
+	}
+	test "maxEnergia, material con el maximo de energia"{
+		assert.equals(maxEnergia, mejorGenerador.algunMaterialQueCumpla(set))
+	}
+	test "ecologico, material vivo"{
+		assert.equals(matVivo, ecologico.algunMaterialQueCumpla(#{matVivo, matNoRad, otro, otro2}))
+	}
+	test "ecologico, ningun vivo, material no radiactivo"{
+		assert.equals(matNoRad, ecologico.algunMaterialQueCumpla(#{matNoRad, otro, otro2}))
+	}
+	test "ecologico, ningun vivo, todos radiactivos, cualquier material"{
+		assert.that(#{otro, otro2}.contains(ecologico.algunMaterialQueCumpla(#{otro, otro2})))
+	}
+}
