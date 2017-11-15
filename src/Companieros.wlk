@@ -52,4 +52,18 @@ object morty inherits Companiero {
 		unCompanero.recibir(mochila)
 		mochila.clear()
 	}
+	
+	method tirarObjetoAlAzar(){
+		mochila.remove(mochila.anyOne())
+	}
+	
+	method modificarEnergiaPorcentual(unPorcentaje) {
+			self.modificarEnergia(self.energia() * unPorcentaje / 100)
+	}
+	
+	method recolectarSiPuede(unMaterial){
+		if(self.puedeRecolectar(unMaterial)){
+			self.recolectar(unMaterial)
+		}
+	}
 }

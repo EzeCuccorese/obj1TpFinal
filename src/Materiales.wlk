@@ -189,8 +189,21 @@ class Fleeb inherits MaterialVivo {
 	}
 }
 
-class Parasito inherits MaterialVivo{
+/* Un parásito alienígena es un elemento vivo que morty puede recolectar. No es 
+ * radiactivo, produce 5 amperes de electricidad, tiene 10 gramos de metal y 
+ * no conduce la electricidad. 
+  */
+class ParasitosAlienigenas inherits MaterialVivo{
 	
+	/* Las acciones que se realizan y el orden de las mismas se configuran al inicio 
+ 	* del juego para cada instancia de un Parásito Alienígena con el cual se 
+ 	* quiera jugar.*/
+	const acciones
+	
+	/*Constructor para configurar las acciones a realizar en la instancia del parasito. */
+	constructor(_accionesConfiguradas){
+		acciones = _accionesConfiguradas
+	}
 	/*Gramos de metal del material. */
 	override method gramosDeMetal() = 10
 	
@@ -200,4 +213,10 @@ class Parasito inherits MaterialVivo{
 	/*Indica si el material es conductor de energia.*/
 	override method esConductor() = false
 	
+	/*Cuando​ ​es​ ​recolectado​, el recolector sufre una alteración en su personalidad realizando 
+	 * una o más acciones forzosamente.  */
+	override method efectoSobreRecolector(unRecolector){
+		acciones.forEach{a => a.ejectuarAccion(unRecolector)} 
+	}
 }
+
