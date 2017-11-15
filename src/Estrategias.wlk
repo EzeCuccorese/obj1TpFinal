@@ -24,11 +24,15 @@ object mejorGenerador inherits Estrategia{
 /*Ecológico: De entre todos los elementos, intenta utilizar un ser vivo. 
  * En caso de que ninguno lo sea, intenta usar un elemento que no sea radiactivo.*/
 object ecologico inherits Estrategia{
+	
+/*Denota algun material de la mochila que no sea radiactivo,
+ * sino, denota cualquiera */
+	method algunMaterialNoRadiactivoOCualquiera(mochila) =
+		mochila.findOrElse({m => !m.esRadiactivo()}, {mochila.anyOne()})	
 
+/*Denota algun material de la mochila que este vivo,
+ * sino, uno que no sea radiactivo, sino, cualquiera */
 	override method algunMaterialQueCumpla(mochila) = 
-		mochila.findOrElse({m => m.estaVivo()}, {
-			mochila.findOrElse({m => !m.esRadiactivo()}, {
-				mochila.anyOne()
-			})
-		})
+		mochila.findOrElse({m => m.estaVivo()}, 
+			{self.algunMaterialNoRadiactivoOCualquiera(mochila)})
 }
