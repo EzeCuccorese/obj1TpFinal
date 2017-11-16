@@ -6,7 +6,7 @@ import Estrategias.*
 /*Representa al modelado de el cientifico rick. */
 object rick {
 	//El compañero de rick.
-	var companero = morty
+	var companero = new Morty()
 	
 	//La mochila donde lleva sus materiales.
 	const mochila = #{}
@@ -25,15 +25,9 @@ object rick {
 	/*Set para cambiar de compañero */
 	method companero(unCompanero) {
 		companero = unCompanero
-		self.causarEfectoEnCompaniero(unCompanero)
 	}
 	
-	method causarEfectoEnCompaniero(unCompanero){
-		unCompanero.efectoDeRick()
-		
-	}
-	
-	/* Modifica la energia del comapañero en cierta cantidad */
+		/* Modifica la energia del comapañero en cierta cantidad */
 	method modificarEnergiaCompanero(unaCantidad){
 		companero.modificarEnergia(unaCantidad)
 	}

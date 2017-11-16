@@ -8,6 +8,7 @@ object materialCaro{
 }
 describe  "morty"{
 	
+		const morty = new Morty()
 		const lata = new Lata(10)
 		const latota = new Lata(400)
 		const fleebito = new Fleeb(20)
@@ -101,7 +102,7 @@ describe  "morty"{
 			jerry.modificarEnergia(50)
 			jerry.recolectar(lata)
 			assert.that(jerry.humor())
-			rick.companero(jerry)
+			jerry.darObjetosA(rick)
 			assert.notThat(jerry.humor())
 		}
 		

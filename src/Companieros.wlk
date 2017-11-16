@@ -1,8 +1,9 @@
+import Rick.*
 /*Representa a un companiero cualquiera, como al dia solo tenemos la implementacion de morty,
  * hemos decidido dejarlo sin ningun tipo de metodo, si en la segunda parte no se implementan
  * mas compañeros esta clase sera borrada.
  */
-class Companiero {
+class Morty {
 	/*Energia que tiene el compañero*/
 	var energia = 0
 
@@ -14,9 +15,9 @@ class Companiero {
 		energia = ( energia + unaCantidad ).max(0)
 	} 
 	
-	method modificarEnergiaPorMaterial(unaCantidad)
+	method modificarEnergiaPorMaterial(unaCantidad) {self.modificarEnergia(unaCantidad)}
 	
-	method tamanioMochila()
+	method tamanioMochila() = 3
 	
 	/*No puede tener mas de 3 materiales en la mochila */
 	method hayLugarEnMochila() = mochila.size() < self.tamanioMochila()
@@ -56,7 +57,7 @@ class Companiero {
 	/*efecto que causa rick sobre el compañero */
 	method efectoDeRick() {}
 
-
+	/*tira un objeto de la mochila */
 	method tirarObjetoAlAzar(){
 		mochila.remove(mochila.anyOne())
 	}
@@ -65,6 +66,7 @@ class Companiero {
 			self.modificarEnergia(self.energia() * unPorcentaje / 100)
 	}
 	
+	/*recolecta el material si puede recolectarlo */
 	method recolectarSiPuede(unMaterial){
 		if(self.puedeRecolectar(unMaterial)){
 			self.recolectar(unMaterial)
@@ -74,24 +76,13 @@ class Companiero {
 }
 
 
-/*Es la implementacion en particular de morty */
-object morty inherits Companiero {
-
-	/*retorna el tamaño de la mochila */
-	override method tamanioMochila() = 3
-	
-	override method modificarEnergiaPorMaterial(unaCantidad) {self.modificarEnergia(unaCantidad)}
-	
-}
-
-object summer inherits Companiero{
+object summer inherits Morty{
 	
 	/*retorna el tamaño de la mochila */
 	override method tamanioMochila() = 2
 
 	/*modifica la energia cuando a */
-	override method modificarEnergiaPorMaterial(unaCantidad){
-		energia = ( energia + (unaCantidad * 0.8) ).max(0)	}
+	override method modificarEnergiaPorMaterial(unaCantidad){ energia = ( energia + (unaCantidad * 0.8) ).max(0)	}
 		
 			
 	/*Verifica si tiene la energia suficiente para recolectar */
@@ -105,32 +96,32 @@ object summer inherits Companiero{
 
 }
 
-object jerry inherits Companiero{
+object jerry inherits Morty{
 	
 	var estaDeHumor = true
 	var sobreexitado = false
-	var tamanioMochila = 3
 	
-	/*setea el tamaño de la mochila */
-	method setTamanioMochila(unTamanio){ tamanioMochila = unTamanio}
 
-	/*Sobreescritura del metodo tamanioMochila */
-	override method tamanioMochila() = tamanioMochila
-	
 	/*cambia el humor al valor que le entregue false-true */
 	method cambiarHumor(valor) {
 		estaDeHumor = valor
 	}
-	
+	/* */
 	override method modificarEnergiaPorMaterial(unaCantidad) {self.modificarEnergia(unaCantidad)}
 	
 	/*returna el estado de humor */
 	method humor() = estaDeHumor
 	
-	/* */
+	/* setea si esta sobreexitado o no*/
 	method sobreexitado(valor){
 		sobreexitado = valor
 	}
+	
+	override method tamanioMochila() {
+		if (sobreexitado) {return super()*2}
+				else return super()
+	}
+	
 	
 	/*Recolecta un material, validando si esto es posible. */
 	override method recolectar(unMaterial) {
@@ -158,15 +149,19 @@ object jerry inherits Companiero{
 	/*puede recolectar hasta el doble de elementos en su mochila */
 	method sobreexitar(unMaterial){
 		if (!sobreexitado and unMaterial.esRadiactivo()){
-			tamanioMochila = tamanioMochila *2
 			sobreexitado = true
 			
 		}
 	}
-	/*ejecto que causa rick sobre jerry */
-	override method efectoDeRick() {
+	
+	/*Le pasa los objetos a un companiero y vacia su mochila */
+	override method darObjetosA(unCompanero) {
+		unCompanero.recibir(mochila)
+		mochila.clear()
 		self.cambiarHumor(false)
 	}
+	
+
 	
 
 
