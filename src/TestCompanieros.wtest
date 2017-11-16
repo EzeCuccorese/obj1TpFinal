@@ -41,7 +41,7 @@ describe  "morty"{
 		}
 		
 
-		test "lugar en mochila en jerry ()"{
+		test "lugar en mochila en jerry con buen humor"{
 			jerry.modificarEnergia(500)
 			jerry.recolectar(lata)
 			jerry.recolectar(latota)
@@ -51,15 +51,30 @@ describe  "morty"{
 			
 			
 		}
-		test "lugar mochila en jerry sobreexitado"{
+		test "lugar mochila en jerry con buen humor y sobreexitado"{
 			jerry.modificarEnergia(500)
 			jerry.recolectar(lata)
 			jerry.recolectar(fleebito)
 			jerry.recolectar(lata)
-			assert.equals(3,jerry.tamanioMochila())
+			assert.equals(6,jerry.tamanioMochila())
 			assert.that(jerry.hayLugarEnMochila())	
 		}
 		
+		test "lugar mochila en jerry con mal humor y sobreexitado"{
+			jerry.modificarEnergia(500)
+			jerry.recolectar(fleebito)
+			jerry.darObjetosA(rick)
+			assert.equals(2,jerry.tamanioMochila())
+			assert.that(jerry.hayLugarEnMochila())				
+		}
+		
+		test "lugar mochila en jerry con mal humor"{
+			jerry.modificarEnergia(500)
+			jerry.recolectar(lata)
+			jerry.darObjetosA(rick)
+			assert.equals(1,jerry.tamanioMochila())
+			assert.that(jerry.hayLugarEnMochila())				
+		}
 		
 		
 		test "recolectar Material Caro lanza error en jerry"{
@@ -97,13 +112,5 @@ describe  "morty"{
 			assert.that(summer.materialesMochila().isEmpty())
 			assert.equals(32,summer.energia())
 		}
-		
-		test" jerry malumorado"{
-			jerry.modificarEnergia(50)
-			jerry.recolectar(lata)
-			assert.that(jerry.humor())
-			jerry.darObjetosA(rick)
-			assert.notThat(jerry.humor())
-		}
-		
+
 }

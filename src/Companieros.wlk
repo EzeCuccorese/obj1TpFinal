@@ -1,4 +1,3 @@
-import Rick.*
 /*Representa a un companiero cualquiera, como al dia solo tenemos la implementacion de morty,
  * hemos decidido dejarlo sin ningun tipo de metodo, si en la segunda parte no se implementan
  * mas compañeros esta clase sera borrada.
@@ -98,71 +97,72 @@ object summer inherits Morty{
 
 object jerry inherits Morty{
 	
-	var estaDeHumor = true
-	var sobreexitado = false
-	
+	var exitacion = tranquilo
+	var humor = buenHumor
 
-	/*cambia el humor al valor que le entregue false-true */
-	method cambiarHumor(valor) {
-		estaDeHumor = valor
-	}
-	/* */
-	override method modificarEnergiaPorMaterial(unaCantidad) {self.modificarEnergia(unaCantidad)}
+	/*setea la exitacion */
+	method exitacion(unEstado){ exitacion = unEstado}
+
+
 	
-	/*returna el estado de humor */
-	method humor() = estaDeHumor
-	
-	/* setea si esta sobreexitado o no*/
-	method sobreexitado(valor){
-		sobreexitado = valor
-	}
-	
-	override method tamanioMochila() {
-		if (sobreexitado) {return super()*2}
-				else return super()
-	}
-	
-	
-	/*Recolecta un material, validando si esto es posible. */
-	override method recolectar(unMaterial) {
-		//self.sobreexitar(unMaterial)
-		self.validarRecoleccion(unMaterial)
-		self.ejecutarPosibilidad()
-		mochila.add(unMaterial)
-		unMaterial.efectoSobreRecolector(self)
-	}
-	
-	/*si cumple con la posibilidades de dejar caer todo lo que tenía en la mochila hasta ese momento. */
-	method ejecutarPosibilidad(){
-		if (self.posibilidad() and sobreexitado){
-			self.tirarElementosMochila()
-			}
-	}
 	/*vacia la mochila */
 	method tirarElementosMochila(){
 		mochila.clear()
 	}
 	
-	/*posibilidad de 1/4 */
-	method posibilidad() = (1.randomUpTo(4)) == 1
-		
-	/*puede recolectar hasta el doble de elementos en su mochila */
-	method sobreexitar(unMaterial){
-		if (!sobreexitado and unMaterial.esRadiactivo()){
-			sobreexitado = true
-			
-		}
+	/*sobreescritura tamanio mochula, devulve el tamanio de la mochila segun el estad de humor y la exitacion */
+	override method tamanioMochila() = exitacion.tamanio(humor.tamanio())
+
+	/*Recolecta un material, validando si esto es posible. */
+	override method recolectar(unMaterial) {
+		self.validarRecoleccion(unMaterial)
+		exitacion.ejecutarPosibilidad(self, unMaterial)
+		mochila.add(unMaterial)
+		unMaterial.efectoSobreRecolector(self)
+		if(unMaterial.estaVivo()) humor = buenHumor
 	}
-	
+
 	/*Le pasa los objetos a un companiero y vacia su mochila */
 	override method darObjetosA(unCompanero) {
 		unCompanero.recibir(mochila)
 		mochila.clear()
-		self.cambiarHumor(false)
+		humor = malHumor
 	}
+}
+
+
+
+object tranquilo{
 	
-
+	method tamanio(unaCantidad) = unaCantidad
 	
+	/*si el material es radiactivo se sobreexita */
+	method ejecutarPosibilidad(unCompaniero, unMaterial){
+		if (unMaterial.esRadiactivo()){
+			unCompaniero.exitacion(sobreExitado)
+		}
+	}
+}
 
+object sobreExitado{	
+	
+	/*posibilidad de 1/4 */
+	method posibilidad() = (1.randomUpTo(4)) == 1
+	
+	method tamanio(unaCantidad) = unaCantidad * 2
 
+	/*si cumple con la posibilidades de dejar caer todo lo que tenía en la mochila hasta ese momento. */
+	method ejecutarPosibilidad(unCompaniero, unMaterial){
+		if (self.posibilidad()){
+			unCompaniero.tirarElementosMochila()
+		}
+	}
+}
+
+object buenHumor{
+	method tamanio() = 3
+}
+
+object malHumor{
+	method tamanio() = 1
 }
