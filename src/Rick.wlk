@@ -16,6 +16,12 @@ object rick {
 	/*Set para cambiar de compañero */
 	method companero(unCompanero) {
 		companero = unCompanero
+		self.causarEfectoEnCompaniero(unCompanero)
+	}
+	
+	method causarEfectoEnCompaniero(unCompanero){
+		unCompanero.efectoDeRick()
+		
 	}
 	
 	/* Modifica la energia del comapañero en cierta cantidad */
