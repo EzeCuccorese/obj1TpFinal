@@ -9,10 +9,12 @@ class Companiero {
 	/*La mochila donde lleva sus materiales */
 	const mochila = #{} 
 
-	/*Setea energia. */
+	/*Setea energia, es modificada. */
 	method modificarEnergia(unaCantidad) {
 		energia = ( energia + unaCantidad ).max(0)
 	} 
+	
+	method modificarEnergiaPorMaterial(unaCantidad)
 	
 	method tamanioMochila()
 	
@@ -68,6 +70,7 @@ class Companiero {
 			self.recolectar(unMaterial)
 		}
 	}
+	
 }
 
 
@@ -76,7 +79,8 @@ object morty inherits Companiero {
 
 	/*retorna el tamaño de la mochila */
 	override method tamanioMochila() = 3
-
+	
+	override method modificarEnergiaPorMaterial(unaCantidad) {self.modificarEnergia(unaCantidad)}
 	
 }
 
@@ -85,14 +89,18 @@ object summer inherits Companiero{
 	/*retorna el tamaño de la mochila */
 	override method tamanioMochila() = 2
 
+	/*modifica la energia cuando a */
+	override method modificarEnergiaPorMaterial(unaCantidad){
+		energia = ( energia + (unaCantidad * 0.8) ).max(0)	}
 		
+			
 	/*Verifica si tiene la energia suficiente para recolectar */
-	override method energiaSuficienteParaRecolectar(unMaterial) = energia >= (unMaterial.energiaRequerida() * 0.2 )
+	override method energiaSuficienteParaRecolectar(unMaterial) = energia >= (unMaterial.energiaRequerida() * 0.8 )
 	
 	/*Le pasa los objetos a un companiero y vacia su mochila */
 	override method darObjetosA(unCompanero) {
 		super(unCompanero)
-		self.modificarEnergia(-10)
+		energia -= 10
 	}
 
 }
@@ -113,6 +121,8 @@ object jerry inherits Companiero{
 	method cambiarHumor(valor) {
 		estaDeHumor = valor
 	}
+	
+	override method modificarEnergiaPorMaterial(unaCantidad) {self.modificarEnergia(unaCantidad)}
 	
 	/*returna el estado de humor */
 	method humor() = estaDeHumor

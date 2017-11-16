@@ -29,7 +29,7 @@ class Material {
 	
 	/*El efecto que produce sobre el recolector. */
 	method efectoSobreRecolector(unRecolector){
-		unRecolector.modificarEnergia(- self.energiaRequerida())		
+		unRecolector.modificarEnergiaPorMaterial(- self.energiaRequerida())		
 	}
 	
 	/*Indica si el material esta vivo. */
@@ -184,7 +184,7 @@ class Fleeb inherits MaterialVivo {
 	override method efectoSobreRecolector(unRecolector){
 		super(unRecolector)
 		if (!self.esRadiactivo()){
-			unRecolector.modificarEnergia(10)	
+			unRecolector.modificarEnergiaPorMaterial(10)	
 		}
 	}
 }

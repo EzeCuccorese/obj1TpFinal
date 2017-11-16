@@ -90,11 +90,11 @@ describe  "morty"{
 		test "dar objeto en summer "{
 			summer.modificarEnergia(50)
 			summer.recolectar(lata)
-			assert.equals(40,summer.energia())
+			assert.equals(42,summer.energia())
 			summer.darObjetosA(rick)
 			assert.equals(#{lata},rick.materialesMochila())
 			assert.that(summer.materialesMochila().isEmpty())
-			assert.equals(30,summer.energia())
+			assert.equals(32,summer.energia())
 		}
 		
 		test" jerry malumorado"{
