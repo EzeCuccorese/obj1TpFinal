@@ -1,6 +1,7 @@
 import Experimentos.*
 import Companieros.*
 import Materiales.*
+import Estrategias.*
 
 /*Representa al modelado de el cientifico rick. */
 object rick {
@@ -11,7 +12,15 @@ object rick {
 	const mochila = #{}
 	
 	//Los experimentos que conoce rick y puede llegar a realizar.
-	const experimentosConocidos = #{construirBateria, construirCircuito, shockElectrico} 
+	const experimentosConocidos = #{construirBateria, construirCircuito, shockElectrico}
+	
+	/*Estategia para buscar los materiales en la mochila */
+	var estrategia = azar 
+	
+	/*Seter para cambiar estrategia */
+	method estrategia(_estrategia){
+		estrategia = _estrategia
+	}
 
 	/*Set para cambiar de compañero */
 	method companero(unCompanero) {
@@ -52,7 +61,7 @@ object rick {
 	
 	/*Devuelve algun material que cumpla con la condicion. */
 	method algunMaterialQueCumpla(condicion) = 
-		self.todosMaterialesQueCumplen(condicion).anyOne() 
+		estrategia.algunMaterialQueCumpla(self.todosMaterialesQueCumplen(condicion)) 
 	
 	/*Devuelve todos los materiales que cumplen con la condicion */
 	method todosMaterialesQueCumplen(condicion) = mochila.filter(condicion) 

@@ -1,5 +1,3 @@
-import Rick.*
-
 /*Representa a un companiero cualquiera, como al dia solo tenemos la implementacion de morty,
  * hemos decidido dejarlo sin ningun tipo de metodo, si en la segunda parte no se implementan
  * mas compañeros esta clase sera borrada.
@@ -52,9 +50,26 @@ class Companiero {
 		unCompanero.recibir(mochila)
 		mochila.clear()
 	}
+
 	/*efecto que causa rick sobre el compañero */
 	method efectoDeRick() {}
+
+
+	method tirarObjetoAlAzar(){
+		mochila.remove(mochila.anyOne())
+	}
+	
+	method modificarEnergiaPorcentual(unPorcentaje) {
+			self.modificarEnergia(self.energia() * unPorcentaje / 100)
+	}
+	
+	method recolectarSiPuede(unMaterial){
+		if(self.puedeRecolectar(unMaterial)){
+			self.recolectar(unMaterial)
+		}
+	}
 }
+
 
 /*Es la implementacion en particular de morty */
 object morty inherits Companiero {
@@ -143,5 +158,6 @@ object jerry inherits Companiero{
 		self.cambiarHumor(false)
 	}
 	
+
 
 }
