@@ -6,7 +6,7 @@ import Estrategias.*
 /*Representa al modelado de el cientifico rick. */
 object rick {
 	//El compañero de rick.
-	var companero = new Morty()
+	var companero = morty
 	
 	//La mochila donde lleva sus materiales.
 	const mochila = #{}

@@ -8,7 +8,6 @@ object materialCaro{
 }
 describe  "morty"{
 	
-		const morty = new Morty()
 		const lata = new Lata(10)
 		const latota = new Lata(400)
 		const fleebito = new Fleeb(20)

@@ -2,7 +2,7 @@
  * hemos decidido dejarlo sin ningun tipo de metodo, si en la segunda parte no se implementan
  * mas compañeros esta clase sera borrada.
  */
-class Morty {
+class Companiero {
 	/*Energia que tiene el compañero*/
 	var energia = 0
 
@@ -11,18 +11,23 @@ class Morty {
 
 	/*Setea energia, es modificada. */
 	method modificarEnergia(unaCantidad) {
-		energia = ( energia + unaCantidad ).max(0)
+		energia = ( self.energia() + unaCantidad ).max(0)
 	} 
 	
+	/*retorna la energia que necesita el material para ser recolectado */
+	method energiaRequeridaDeMaterial(unMaterial) = unMaterial.energiaRequerida()
+	
+	/*Verifica si tiene la energia suficiente para recolectar */
+	method energiaSuficienteParaRecolectar(unMaterial) = self.energia() >= self.energiaRequeridaDeMaterial(unMaterial)
+	
+	/*modifica energia, utilizado por los materiales */
 	method modificarEnergiaPorMaterial(unaCantidad) {self.modificarEnergia(unaCantidad)}
 	
+	/*retorna el tamanio de la mochila */
 	method tamanioMochila() = 3
 	
 	/*No puede tener mas de 3 materiales en la mochila */
 	method hayLugarEnMochila() = mochila.size() < self.tamanioMochila()
-
-	/*Verifica si morty tiene la energia suficiente para recolectar */
-	method energiaSuficienteParaRecolectar(unMaterial) = energia >= unMaterial.energiaRequerida()
 
 	/*Nos dice si puede recolectar un material. */
 	method puedeRecolectar(unMaterial) = self.hayLugarEnMochila() and self.energiaSuficienteParaRecolectar(unMaterial)
@@ -53,9 +58,6 @@ class Morty {
 		mochila.clear()
 	}
 
-	/*efecto que causa rick sobre el compañero */
-	method efectoDeRick() {}
-
 	/*tira un objeto de la mochila */
 	method tirarObjetoAlAzar(){
 		mochila.remove(mochila.anyOne())
@@ -74,28 +76,35 @@ class Morty {
 	
 }
 
+object morty inherits Companiero{
+	
+}
 
-object summer inherits Morty{
+object summer inherits Companiero{
+	const porcentajeEnergia = 0.8
+	const energiaQueGasta = 10
 	
 	/*retorna el tamaño de la mochila */
 	override method tamanioMochila() = 2
 
-	/*modifica la energia cuando a */
-	override method modificarEnergiaPorMaterial(unaCantidad){ energia = ( energia + (unaCantidad * 0.8) ).max(0)	}
-		
-			
+	/*sobre escribe el metodo modificarEnergiaPorMaterial, modifica energia, utilizado por los materiales */
+    override method modificarEnergiaPorMaterial(unaCantidad) {self.modificarEnergia(unaCantidad * porcentajeEnergia)}
+	
+	
+	override method energiaRequeridaDeMaterial(unMaterial) = super(unMaterial) * porcentajeEnergia
+	
 	/*Verifica si tiene la energia suficiente para recolectar */
-	override method energiaSuficienteParaRecolectar(unMaterial) = energia >= (unMaterial.energiaRequerida() * 0.8 )
+	override method energiaSuficienteParaRecolectar(unMaterial) = energia >= (unMaterial.energiaRequerida() * porcentajeEnergia )
 	
 	/*Le pasa los objetos a un companiero y vacia su mochila */
 	override method darObjetosA(unCompanero) {
 		super(unCompanero)
-		energia -= 10
+		self.modificarEnergia(-energiaQueGasta)
 	}
 
 }
 
-object jerry inherits Morty{
+object jerry inherits Companiero{
 	
 	var exitacion = tranquilo
 	var humor = buenHumor
@@ -103,29 +112,23 @@ object jerry inherits Morty{
 	/*setea la exitacion */
 	method exitacion(unEstado){ exitacion = unEstado}
 
-
-	
 	/*vacia la mochila */
-	method tirarElementosMochila(){
-		mochila.clear()
-	}
+	method tirarElementosMochila(){ mochila.clear() }
 	
 	/*sobreescritura tamanio mochula, devulve el tamanio de la mochila segun el estad de humor y la exitacion */
 	override method tamanioMochila() = exitacion.tamanio(humor.tamanio())
 
 	/*Recolecta un material, validando si esto es posible. */
 	override method recolectar(unMaterial) {
-		self.validarRecoleccion(unMaterial)
+		super(unMaterial)
 		exitacion.ejecutarPosibilidad(self, unMaterial)
-		mochila.add(unMaterial)
-		unMaterial.efectoSobreRecolector(self)
 		if(unMaterial.estaVivo()) humor = buenHumor
+		
 	}
 
 	/*Le pasa los objetos a un companiero y vacia su mochila */
 	override method darObjetosA(unCompanero) {
-		unCompanero.recibir(mochila)
-		mochila.clear()
+		super(unCompanero)
 		humor = malHumor
 	}
 }
@@ -149,11 +152,12 @@ object sobreExitado{
 	/*posibilidad de 1/4 */
 	method posibilidad() = (1.randomUpTo(4)) == 1
 	
+	/*duplica el tamanio */
 	method tamanio(unaCantidad) = unaCantidad * 2
 
 	/*si cumple con la posibilidades de dejar caer todo lo que tenía en la mochila hasta ese momento. */
 	method ejecutarPosibilidad(unCompaniero, unMaterial){
-		if (self.posibilidad()){
+		if (self.posibilidad()){ 
 			unCompaniero.tirarElementosMochila()
 		}
 	}
