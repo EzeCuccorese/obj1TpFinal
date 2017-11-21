@@ -63,6 +63,7 @@ class Companiero {
 		mochila.remove(mochila.anyOne())
 	}
 	
+	/*recibe un porcentaje y modifica la energia en ese porcentaje */
 	method modificarEnergiaPorcentual(unPorcentaje) {
 			self.modificarEnergia(self.energia() * unPorcentaje / 100)
 	}
