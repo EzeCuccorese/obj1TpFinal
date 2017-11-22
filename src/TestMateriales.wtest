@@ -1,8 +1,11 @@
 import Materiales.*
+import Acciones.*
+import Companieros.*
 
 describe "Materiales" {
 	var lata = new Lata(50)
 	var cable = new Cable(10, 2)
+	var materiaOscura = new MateriaOscura(lata)
 	
 	//fixture{	}
 	test "Lata con 50 gramos de metal"{	
@@ -52,5 +55,21 @@ describe "Materiales" {
 		assert.equals( 50 , circuito.gramosDeMetal())
 		assert.equals( 15 , circuito.electricidad())
 		assert.notThat( circuito.esRadiactivo() )
+	}
+	
+	test "Parasitos" {
+		var acciones = []
+		acciones.add(new EntregarTodo())
+		acciones.add(new DescartarAlAzar())
+		acciones.add(new IncrementarDecrementarEnergia(10))
+		acciones.add(new RecolectarElementoOculto(lata))
+		var parasito = new ParasitosAlienigenas(acciones)
+		
+		morty.modificarEnergia(2000)
+		morty.recolectar(materiaOscura)
+		morty.recolectar(parasito)
+		
+		assert.equals(morty.energia(), 2095)
+		assert.equals(morty.materialesMochila(), #{lata})
 	}
 }

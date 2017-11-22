@@ -59,7 +59,8 @@ class Companiero {
 
 	/*tira un objeto de la mochila */
 	method tirarObjetoAlAzar(){
-		mochila.remove(mochila.anyOne())
+		if(!mochila.isEmpty())
+			mochila.remove(mochila.anyOne())
 	}
 	
 	/*recibe un porcentaje y modifica la energia en ese porcentaje */
