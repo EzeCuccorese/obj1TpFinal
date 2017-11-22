@@ -17,8 +17,6 @@ describe "Materiales" {
 		assert.notThat( cable.esRadiactivo() )
 		assert.equals( 0 , cable.energia() )		
 	}
-	
-	
 
 	test "Fleeb con 20 anios, radiactivo, flaco"{	
 		var fleeb = new Fleeb(20)

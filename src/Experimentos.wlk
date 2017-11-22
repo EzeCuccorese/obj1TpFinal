@@ -64,12 +64,10 @@ object construirCircuito inherits Experimento(#{
 	/*Se sobreescribe este metodo, ya que para construir un circuito se ocupan 
 	 * todos los materiales que cumplan para cada una de las condiciones. */
 	override method materialesParaConstruir(unRick) = 
-				//condiciones.fold(#{}, { acc, c => acc + unRick.todosMaterialesQueCumplen(c) } )
-				condiciones.map{c => unRick.todosMaterialesQueCumplen(c) }.flatten()
+		condiciones.map{c => unRick.todosMaterialesQueCumplen(c) }.flatten()
 
 	/* Sobreescritura del metodo aplicar efecto al construir un circuito. En este caso al 
-	 * construirse no se aplica ningun efecto sobre el compaiero de rick.
-	 */
+	 * construirse no se aplica ningun efecto sobre el compaiero de rick. */
 	override method aplicarEfecto(unRick, unosMateriales) {
 		unRick.agregar(new Circuito(unosMateriales))
 	}

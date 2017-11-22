@@ -1,13 +1,22 @@
-/*Representa a un companiero cualquiera, como al dia solo tenemos la implementacion de morty,
- * hemos decidido dejarlo sin ningun tipo de metodo, si en la segunda parte no se implementan
- * mas compañeros esta clase sera borrada.
- */
+/*Representa a un companiero*/
 class Companiero {
 	/*Energia que tiene el compañero*/
 	var energia = 0
 
 	/*La mochila donde lleva sus materiales */
 	const mochila = #{} 
+	
+	/*Devuelve la energia */
+	method energia() = energia
+
+	/*Devuelve el conjunto de materiales */
+	method materialesMochila() = mochila
+	
+	/*retorna el tamanio de la mochila */
+	method tamanioMochila() = 3
+	
+	/*No puede tener mas de 3 materiales en la mochila */
+	method hayLugarEnMochila() = mochila.size() < self.tamanioMochila()
 
 	/*Setea energia, es modificada. */
 	method modificarEnergia(unaCantidad) {
@@ -21,13 +30,9 @@ class Companiero {
 	method energiaSuficienteParaRecolectar(unMaterial) = self.energia() >= self.energiaRequeridaDeMaterial(unMaterial)
 	
 	/*modifica energia, utilizado por los materiales */
-	method modificarEnergiaPorMaterial(unaCantidad) {self.modificarEnergia(unaCantidad)}
-	
-	/*retorna el tamanio de la mochila */
-	method tamanioMochila() = 3
-	
-	/*No puede tener mas de 3 materiales en la mochila */
-	method hayLugarEnMochila() = mochila.size() < self.tamanioMochila()
+	method modificarEnergiaPorMaterial(unaCantidad){
+		self.modificarEnergia(unaCantidad)
+	}
 
 	/*Nos dice si puede recolectar un material. */
 	method puedeRecolectar(unMaterial) = self.hayLugarEnMochila() and self.energiaSuficienteParaRecolectar(unMaterial)
@@ -38,12 +43,6 @@ class Companiero {
 			self.error("No se puede recolectar " + unMaterial)
 		}
 	}
-
-	/*Devuelve el conjunto de materiales */
-	method materialesMochila() = mochila
-	
-	/*Devuelve la energia */
-	method energia() = energia
 	
 	/*Recolecta un material, validando si esto es posible. */
 	method recolectar(unMaterial) {
@@ -74,35 +73,30 @@ class Companiero {
 			self.recolectar(unMaterial)
 		}
 	}
-	
 }
 
-object morty inherits Companiero{
-	
-}
+object morty inherits Companiero{}
 
 object summer inherits Companiero{
 	const porcentajeEnergia = 0.8
-	const energiaQueGasta = 10
+	const energiaQueGasta = -10
 	
 	/*retorna el tamaño de la mochila */
 	override method tamanioMochila() = 2
 
 	/*sobre escribe el metodo modificarEnergiaPorMaterial, modifica energia, utilizado por los materiales */
-    override method modificarEnergiaPorMaterial(unaCantidad) {self.modificarEnergia(unaCantidad * porcentajeEnergia)}
-	
-	
+    override method modificarEnergiaPorMaterial(unaCantidad){
+    	super(unaCantidad * porcentajeEnergia)
+    }
+    
+	/*energia que se requiere para recolectar el material */
 	override method energiaRequeridaDeMaterial(unMaterial) = super(unMaterial) * porcentajeEnergia
-	
-	/*Verifica si tiene la energia suficiente para recolectar */
-	override method energiaSuficienteParaRecolectar(unMaterial) = energia >= (unMaterial.energiaRequerida() * porcentajeEnergia )
-	
+
 	/*Le pasa los objetos a un companiero y vacia su mochila */
 	override method darObjetosA(unCompanero) {
 		super(unCompanero)
-		self.modificarEnergia(-energiaQueGasta)
+		self.modificarEnergia(energiaQueGasta)
 	}
-
 }
 
 object jerry inherits Companiero{
@@ -111,7 +105,9 @@ object jerry inherits Companiero{
 	var humor = buenHumor
 
 	/*setea la exitacion */
-	method exitacion(unEstado){ exitacion = unEstado}
+	method sobreExitarse(){ 
+		exitacion = sobreExitado
+	}
 
 	/*vacia la mochila */
 	method tirarElementosMochila(){ mochila.clear() }
@@ -124,7 +120,6 @@ object jerry inherits Companiero{
 		super(unMaterial)
 		exitacion.ejecutarPosibilidad(self, unMaterial)
 		if(unMaterial.estaVivo()) humor = buenHumor
-		
 	}
 
 	/*Le pasa los objetos a un companiero y vacia su mochila */
@@ -134,8 +129,6 @@ object jerry inherits Companiero{
 	}
 }
 
-
-
 object tranquilo{
 	
 	method tamanio(unaCantidad) = unaCantidad
@@ -143,7 +136,7 @@ object tranquilo{
 	/*si el material es radiactivo se sobreexita */
 	method ejecutarPosibilidad(unCompaniero, unMaterial){
 		if (unMaterial.esRadiactivo()){
-			unCompaniero.exitacion(sobreExitado)
+			unCompaniero.sobreExitarse()
 		}
 	}
 }

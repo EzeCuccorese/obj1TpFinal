@@ -68,8 +68,8 @@ object rick {
 	
 	/*Valida si un experimento puede ser llevado a cabo. */	
 	method validarRealizacionDeExperimento(unExperimento){
-		if (! unExperimento.puedeRealizarse(self)){
-		    self.error("No puede realizarse el experimento " + unExperimento)		}		
+		if (! unExperimento.puedeRealizarse(self))
+		    self.error("No puede realizarse el experimento " + unExperimento)		
 	}
 
 	/*Realiza un experimento, en caso de que no pueda llevarse a cabo arroja un error */

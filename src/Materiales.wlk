@@ -64,7 +64,8 @@ class Cable inherits Material {
 
 	/*Constructor del cable, recibe la longitud y la seccion que tiene. */
 	constructor(_longitud, _seccion) {
-		longitud = _longitud seccion = _seccion
+		longitud = _longitud 
+		seccion = _seccion
 	}
 	
 	/*Calcula la cantidad de gramos de metal en base a la longitud y la seccion. */
