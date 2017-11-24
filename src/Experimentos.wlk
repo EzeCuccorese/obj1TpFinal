@@ -85,10 +85,10 @@ object shockElectrico inherits Experimento(#{
 }) {
 	
 	/*Verifica que el material sea conductor de energia.*/
-	method esConductor() = { m => m.esConductor()}
+	const esConductor = { m => m.esConductor()}
 	
 	/*Verifica que el material sea generador de energia. */ 
-	method esGenerador() = { m => m.esGenerador()}
+	const esGenerador = { m => m.esGenerador()}
 	
 	/*Denota algun objeto de unosMateriales que cumpla la condicion "condicion" */
 	method algunoQueCumpla(unosMateriales, condicion) =
@@ -96,11 +96,11 @@ object shockElectrico inherits Experimento(#{
 	
 	/*Devuelve la electricidad del material conductivo. */				
 	method electricidadDeConductor(unosMateriales) =
-		self.algunoQueCumpla(unosMateriales, self.esConductor()).electricidad()
+		self.algunoQueCumpla(unosMateriales, esConductor).electricidad()
 	
 	/* Devuelve la energia del material energetico. */
 	method energiaDeGenerador(unosMateriales) =
-		self.algunoQueCumpla(unosMateriales, self.esGenerador()).energia()
+		self.algunoQueCumpla(unosMateriales, esGenerador).energia()
 
 	/* Sobreescritura del metodo aplicar efecto al construir un shock electrico. 
 	 * En este caso el companiero gana la energia que da el conductor 
