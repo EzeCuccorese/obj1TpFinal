@@ -18,16 +18,16 @@ class Experimento {
 	/*Le pide al cientifico los materiales para construir. */
 	method materialesParaConstruir(unRick) = 
 			condiciones.map{ c => unRick.algunMaterialQueCumpla(c) }
+			
+	/*Remover materiales de rick, y aplicar efecto */
+	method removerYAplicarEfecto(unRick, unosMateriales){
+		unRick.remover(unosMateriales) 
+		self.aplicarEfecto(unRick, unosMateriales)
+	}
 	
 	/*Realiza el procedimiento necesario para llevar a cabo el experimento. */
 	method realizar(unRick){
-		//Se guardan los materiales en una constante ya que los metodos de colecciones "anyOne" no
-		//aseguran que los materiales sean los mismos con los que se llevo la validacion 
-		//de condiciones en un principio.
-		
-		const materiales = self.materialesParaConstruir(unRick)
-		unRick.remover(materiales) 
-		self.aplicarEfecto(unRick, materiales)
+		self.removerYAplicarEfecto(unRick, self.materialesParaConstruir(unRick))
 	}
 	
 	/*Aplica un efecto sobre el companiero de rick luego de realizar el experimento. 
