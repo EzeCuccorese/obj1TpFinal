@@ -7,7 +7,11 @@ describe "Materiales" {
 	var cable = new Cable(10, 2)
 	var materiaOscura = new MateriaOscura(lata)
 	
-	//fixture{	}
+	fixture{	
+		morty.modificarEnergia(2000)
+		
+	}
+	
 	test "Lata con 50 gramos de metal"{	
 		assert.equals(50, lata.gramosDeMetal())
 		assert.equals(5, lata.electricidad())	
@@ -57,19 +61,24 @@ describe "Materiales" {
 		assert.notThat( circuito.esRadiactivo() )
 	}
 	
-	test "Parasitos" {
-		var acciones = []
-		acciones.add(new EntregarTodo())
-		acciones.add(new DescartarAlAzar())
-		acciones.add(new IncrementarDecrementarEnergia(10))
-		acciones.add(new RecolectarElementoOculto(lata))
-		var parasito = new ParasitosAlienigenas(acciones)
-		
-		morty.modificarEnergia(2000)
+	test "Parasito Entregar Todo" {
 		morty.recolectar(materiaOscura)
-		morty.recolectar(parasito)
-		
-		assert.equals(morty.energia(), 2095)
-		assert.equals(morty.materialesMochila(), #{lata})
+		morty.recolectar(new ParasitosAlienigenas(#{new EntregarTodo()}))
+		assert.that(morty.materialesMochila().isEmpty())
 	}
+	
+	test "Parasito Descartar al azar" {
+		morty.recolectar(new ParasitosAlienigenas(#{new DescartarAlAzar()}))
+		assert.that(morty.materialesMochila().isEmpty())
+	}
+	
+	test "Parasito IncrementarDecrementarEnergia" {
+		morty.recolectar(new ParasitosAlienigenas(#{new IncrementarDecrementarEnergia(10)}))
+		assert.equals(2200, morty.energia())
+	}	
+	
+	test "Parasito RecolectarElementoOculto" {
+		morty.recolectar(new ParasitosAlienigenas(#{new RecolectarElementoOculto(lata)}))
+		assert.that(morty.materialesMochila().contains(lata))
+	}	
 }
